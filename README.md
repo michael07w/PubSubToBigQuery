@@ -1,6 +1,6 @@
 # PubSubToBigQuery
 
-Sets up a pipeline run by Google's Dataflow to read messages from Google's Pub/Sub service and append messages
+Sets up a pipeline run by Google's Dataflow to stream messages from Google's Pub/Sub service and append messages
 to a BigQuery table.
 
 Google dataset_id and table_id must be provided. The table can be an existing BQ table, or not yet exist. 
