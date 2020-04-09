@@ -49,8 +49,6 @@ class AddTimestamps(beam.DoFn):
 
 
 def run(known_args, pipeline_args, window_size=1.0):
-    # User must specify following options as command-line args:
-    # job_name, project, subscription, runner, staging_location, temp_location
 
     # specify BQ Dataset and Table to write to; [dataset_id].[table_id]
     table_spec = '{dataset}.{table}'.format(
@@ -77,8 +75,12 @@ def run(known_args, pipeline_args, window_size=1.0):
 
 
 if __name__ == '__main__':
-    # Get Pub/Sub Subscription to read from as cmd-line arg
-    # Using a Sub allows us to retrieve msgs published while pipeline was offline
+    """User must specify following options as command-line args:
+    job_name, project, subscription, dataset_id, table_id, runner, staging_location, temp_location
+
+    Using a Sub allows us to retrieve msgs published while pipeline was offline.
+    """
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--subscription",
