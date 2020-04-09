@@ -6,7 +6,9 @@ import apache_beam as beam
 from apache_beam import window
 from apache_beam.options.pipeline_options import PipelineOptions
 
-
+# Minor modifications made to this class
+# Originally written as GroupWindowsIntoBatches here:
+# https://cloud.google.com/pubsub/docs/pubsub-dataflow
 class GroupWindows(beam.PTransform):
     """A composite transform that groups Pub/Sub messages based on publish
     time and outputs a list of dictionaries, where each contains one message
@@ -28,12 +30,14 @@ class GroupWindows(beam.PTransform):
         )
 
 
+# Minor modifications made to this class
+# Originally written as AddTimestamps here:
+# https://cloud.google.com/pubsub/docs/pubsub-dataflow
 class AddTimestamps(beam.DoFn):
     def process(self, element, publish_time=beam.DoFn.TimestampParam):
         """Processes each incoming windowed element by extracting the Pub/Sub
         message and its publish timestamp into a dictionary. `publish_time`
-        defaults to the publish timestamp returned by the Pub/Sub server. It
-        is bound to each element by Beam at runtime.
+        defaults to the publish timestamp returned by the Pub/Sub server.
         """
 
         yield {
@@ -46,7 +50,7 @@ class AddTimestamps(beam.DoFn):
 
 def run(known_args, pipeline_args, window_size=1.0):
     # User must specify following options as command-line args:
-    # job_name, project, runner, staging_location, temp_location
+    # job_name, project, subscription, runner, staging_location, temp_location
 
     # specify BQ Dataset and Table to write to; [dataset_id].[table_id]
     table_spec = '{dataset}.{table}'.format(
